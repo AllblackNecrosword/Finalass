@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import Data.Courses;
 import Users.Student;
 import Users.Teacher;
+import Users.Admin;
 
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -35,6 +36,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.table.TableModel;
+import javax.swing.border.LineBorder;
+import javax.swing.JTextField;
 
 public class Dashboard {
 
@@ -42,6 +46,7 @@ public class Dashboard {
 	protected JPanel panel_4;
 	private CardLayout cd = new CardLayout(0,0);
 	private JTable table;
+	private JTable table_1;
 	/**
 	 * Launch the application.
 	 */
@@ -76,10 +81,11 @@ public class Dashboard {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(117, 191, 64));
+		panel.setBackground(new Color(128, 128, 128));
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
 		
 		JLabel lblNewLabel = new JLabel("Course Management System");
+		lblNewLabel.setForeground(new Color(0, 0, 0));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
 		panel.add(lblNewLabel);
 		JPanel panel_2 = new JPanel();
@@ -111,6 +117,7 @@ public class Dashboard {
 		
 		
 		Teacher t = new Teacher();
+		
 		JLabel lblNewLabel_4_1 = new JLabel(""+t.getTeachersCount());
 		lblNewLabel_4_1.setFont(new Font("Tahoma", Font.BOLD, 29));
 		
@@ -119,37 +126,39 @@ public class Dashboard {
 		lblNewLabel_4_2.setFont(new Font("Tahoma", Font.BOLD, 29));
 		
 		
-		JLabel lblNewLabel_4_3 = new JLabel(""+c.getCourseCount());
+		JLabel lblNewLabel_4_3 = new JLabel(""+c.getCourseList().size());
 		lblNewLabel_4_3.setFont(new Font("Tahoma", Font.BOLD, 29));
 		GroupLayout gl_dashboard = new GroupLayout(dashboard);
 		gl_dashboard.setHorizontalGroup(
-			gl_dashboard.createParallelGroup(Alignment.LEADING)
+			gl_dashboard.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_dashboard.createSequentialGroup()
 					.addGap(241)
 					.addComponent(lblNewLabel_1)
 					.addContainerGap(256, Short.MAX_VALUE))
 				.addGroup(gl_dashboard.createSequentialGroup()
-					.addGap(28)
-					.addGroup(gl_dashboard.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_3_2, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
-					.addGroup(gl_dashboard.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_3_3, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_3_1, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
-					.addGap(110))
-				.addGroup(Alignment.TRAILING, gl_dashboard.createSequentialGroup()
-					.addGap(51)
-					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 328, Short.MAX_VALUE)
-					.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-					.addGap(133))
-				.addGroup(Alignment.TRAILING, gl_dashboard.createSequentialGroup()
 					.addGap(52)
 					.addComponent(lblNewLabel_4_3, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 335, Short.MAX_VALUE)
 					.addComponent(lblNewLabel_4_2, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 					.addGap(125))
+				.addGroup(Alignment.LEADING, gl_dashboard.createSequentialGroup()
+					.addGap(28)
+					.addGroup(gl_dashboard.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_dashboard.createSequentialGroup()
+							.addGap(19)
+							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 328, Short.MAX_VALUE)
+							.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+							.addGap(133))
+						.addGroup(gl_dashboard.createSequentialGroup()
+							.addGroup(gl_dashboard.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel_3_2, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
+							.addGroup(gl_dashboard.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewLabel_3_3, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel_3_1, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
+							.addGap(110))))
 		);
 		gl_dashboard.setVerticalGroup(
 			gl_dashboard.createParallelGroup(Alignment.LEADING)
@@ -172,39 +181,61 @@ public class Dashboard {
 					.addGroup(gl_dashboard.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNewLabel_4_2, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_4_3, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(178, Short.MAX_VALUE))
+					.addContainerGap(190, Short.MAX_VALUE))
 		);
+		
 		dashboard.setLayout(gl_dashboard);
 		
 		JPanel course = new JPanel();
 		panel_2.add(course, "name_141628327776400");
 		
-		JLabel lblNewLabel_2 = new JLabel("Courses");
-		lblNewLabel_2.setBounds(232, 10, 103, 31);
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 25));
-		
 		JLabel lblNewLabel_5 = new JLabel("Total Courses");
-		lblNewLabel_5.setBounds(23, 59, 124, 29);
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_5.setBounds(10, 68, 124, 29);
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
-		JLabel lblNewLabel_6 = new JLabel(""+c.getCourseCount());
-		lblNewLabel_6.setBounds(33, 94, 76, 35);
+		JLabel lblNewLabel_6 = new JLabel(""+c.getCourseList().size());
+		lblNewLabel_6.setBounds(39, 94, 76, 35);
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 29));
 		
 		
 		DefaultTableModel coursesModel = new DefaultTableModel();
 		coursesModel.setColumnIdentifiers(new Object[] {"Id","Course Name"});
-		for(int i =0;i<c.getCourseCount();i++) {
+		for(int i =0;i<c.getCourseList().size();i++) {
 			coursesModel.addRow(new Object[] {i+1,c.getCourseList().get(i)});
 		}
+		
 		course.setLayout(null);
-		course.add(lblNewLabel_2);
 		course.add(lblNewLabel_6);
 		course.add(lblNewLabel_5);
 		
+		
+		
+		JButton btnNewButton_1 = new JButton("Add Course");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AddCourse();
+				
+				
+			}
+		});
+		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_1.setBounds(256, 10, 103, 24);
+		course.add(btnNewButton_1);
+		
+		JButton btnNewButton_1_1 = new JButton("Delete Course");
+		btnNewButton_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_1_1.setBounds(505, 10, 117, 24);
+		course.add(btnNewButton_1_1);
+		
+		JButton btnNewButton_1_3 = new JButton("Update Course");
+		btnNewButton_1_3.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_1_3.setBounds(369, 10, 124, 24);
+		course.add(btnNewButton_1_3);
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(71, 159, 478, 175);
+		scrollPane.setBounds(125, 74, 448, 300);
 		course.add(scrollPane);
+		scrollPane.setViewportBorder(new LineBorder(new Color(0, 0, 0), 2));
 		
 		
 		table = new JTable(coursesModel);
@@ -216,48 +247,56 @@ public class Dashboard {
 		JPanel tutor = new JPanel();
 		panel_2.add(tutor, "name_141629784623800");
 		
-		JLabel lblNewLabel_7 = new JLabel("Tutor");
-		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 25));
-		
-		JLabel lblNewLabel_8 = new JLabel("Total Tutors");
-		lblNewLabel_8.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		
-		JLabel lblNewLabel_6_1 = new JLabel(""+t.getTeachersCount());
+		JLabel lblNewLabel_6_1 = new JLabel(""+c.getTeachersCount());
+		lblNewLabel_6_1.setBounds(33, 143, 76, 35);
 		lblNewLabel_6_1.setFont(new Font("Tahoma", Font.BOLD, 29));
-		GroupLayout gl_tutor = new GroupLayout(tutor);
-		gl_tutor.setHorizontalGroup(
-			gl_tutor.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_tutor.createSequentialGroup()
-					.addGroup(gl_tutor.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_tutor.createSequentialGroup()
-							.addGap(282)
-							.addComponent(lblNewLabel_7))
-						.addGroup(gl_tutor.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblNewLabel_8, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_tutor.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblNewLabel_6_1, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(283, Short.MAX_VALUE))
-		);
-		gl_tutor.setVerticalGroup(
-			gl_tutor.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_tutor.createSequentialGroup()
-					.addGap(5)
-					.addComponent(lblNewLabel_7)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblNewLabel_8)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblNewLabel_6_1, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(345, Short.MAX_VALUE))
-		);
-		tutor.setLayout(gl_tutor);
+		
+		JLabel lblNewLabel_5_1 = new JLabel("Total Tutors");
+		lblNewLabel_5_1.setBounds(10, 104, 124, 29);
+		lblNewLabel_5_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		
+		JButton btnNewButton_2 = new JButton("Add Tutors");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_2.setBounds(283, 10, 97, 33);
+		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		JButton btnNewButton_2_1 = new JButton("Delete Tutors");
+		btnNewButton_2_1.setBounds(497, 10, 113, 33);
+		btnNewButton_2_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		JButton btnNewButton_2_2 = new JButton("Edit Tutors");
+		btnNewButton_2_2.setBounds(390, 10, 97, 33);
+		btnNewButton_2_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		DefaultTableModel tutorView = new DefaultTableModel();
+		tutorView.setColumnIdentifiers(new String[] {"Sn","Tutor Name"});
+		
+		for(int j =0;j<t.viewTeacher().size();j++) {
+			tutorView.addRow(new Object[] {j+1,t.viewTeacher().get(j)});
+		}
+		tutor.setLayout(null);
+		tutor.add(lblNewLabel_6_1);
+		tutor.add(btnNewButton_2);
+		tutor.add(lblNewLabel_5_1);
+		tutor.add(btnNewButton_2_2);
+		tutor.add(btnNewButton_2_1);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(175, 113, 403, 233);
+		tutor.add(scrollPane_1);
+		
+		table_1 = new JTable(tutorView);
+		scrollPane_1.setViewportView(table_1);
+		
 		
 		JPanel setting = new JPanel();
 		panel_2.add(setting, "name_141631279984300");
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(117, 191, 64));
+		panel_1.setBackground(new Color(128, 128, 128));
 		frame.getContentPane().add(panel_1, BorderLayout.WEST);
 		
 		JButton btnNewButton = new JButton("Dashboard");
@@ -320,25 +359,31 @@ public class Dashboard {
 				frame.dispose();
 			}
 		});
+		
+		JLabel lblNewLabel_9 = new JLabel("");
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+	
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnCourse, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-						.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnTutor, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-						.addComponent(btnMail, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-						.addComponent(btnHelp, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-						.addComponent(btnSetting, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-						.addComponent(btnLogOut, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_9, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+						.addComponent(btnCourse, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnTutor, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+						.addComponent(btnMail, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+						.addComponent(btnHelp, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+						.addComponent(btnSetting, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+						.addComponent(btnLogOut, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(61)
+					.addContainerGap()
+					.addComponent(lblNewLabel_9, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnNewButton)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnCourse)
@@ -352,7 +397,7 @@ public class Dashboard {
 					.addComponent(btnSetting)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnLogOut)
-					.addContainerGap(174, Short.MAX_VALUE))
+					.addContainerGap(200, Short.MAX_VALUE))
 		);
 		panel_1.setLayout(gl_panel_1);
 		

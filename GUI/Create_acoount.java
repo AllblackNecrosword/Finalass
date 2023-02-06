@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 
 import Data.SendData;
 import Data.SignupData;
+import Exceptions.UserExistsException;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -22,7 +23,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
+import verification.Validation;
 
 public class Create_acoount {
 
@@ -121,28 +125,42 @@ public class Create_acoount {
 		JButton btnNewButton = new JButton("Create ");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JPasswordField passwordfield = new JPasswordField();
+				
 				String u = username.getText();
 				char[] p1 = pass1.getPassword();
 				char[] p2 = pass2.getPassword();
 				String em = email.getText();
+				String pass = new String(pass1.getPassword());
+				Validation v = new Validation();
+				
 				if(u.isEmpty()||p1.equals("")||p2.equals("")||em.isEmpty()) {
-					JOptionPane.showMessageDialog(panel_1,"Please Fill the empty Boxes","Warning",JOptionPane.WARNING_MESSAGE);     
-				}else if(p1.equals(p2)) {
+					JOptionPane.showMessageDialog(panel_1,"Please Fill the empty Boxes","Warning",JOptionPane.WARNING_MESSAGE);   
+					return;
+				}
+				if(p1.equals(p2)) {
 					JOptionPane.showMessageDialog(panel_1,"Password Does not match","Warning",JOptionPane.WARNING_MESSAGE); 
+					return;
+				}
+				if(v.validateEmail(em)&&v.validateUsername(u)&&v.validatePassword(pass)) {
+					SignupData s = new SignupData(u,em,comboBox.getSelectedItem().toString(),pass);
+					SendData sd = new SendData();
+					try {
+						sd.signupData(s);
+						 JOptionPane.showMessageDialog(panel_1,"Succesfull"); 
+						 frame.setVisible(false);
+							new Login_form();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(panel_1,"Something Went Wrong!!!","Error",JOptionPane.ERROR_MESSAGE); 
+					}
 				}else {
-					SignupData s = new SignupData(u,em,comboBox.getSelectedItem().toString(),p1);
-				SendData sd = new SendData();
-				try {
-					sd.signupData(s);
-					 JOptionPane.showMessageDialog(panel_1,"Succesfull"); 
-					 frame.setVisible(false);
-						new Login_form();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-					
-				}
+					JOptionPane.showMessageDialog(panel_1,"Invalid Format!","Warning",JOptionPane.WARNING_MESSAGE); 
+
+					}
+		
+				
+
 				
 			}
 		});
@@ -160,9 +178,9 @@ public class Create_acoount {
 		panel_2.setLayout(null);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
-		Image profile4= new ImageIcon(this.getClass().getResource("/add-friend.png")).getImage();
+		Image profile4= new ImageIcon(this.getClass().getResource("/pngwing.com.png")).getImage();
 		lblNewLabel_3.setIcon(new ImageIcon(profile4));
-		lblNewLabel_3.setBounds(88, 165, 133, 142);
+		lblNewLabel_3.setBounds(10, 10, 256, 462);
 		panel_2.add(lblNewLabel_3);
 	
 	}

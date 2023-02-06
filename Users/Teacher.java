@@ -40,14 +40,32 @@ public class Teacher {
         Statement addMarksSt = connection.createStatement();
         addMarksSt.executeUpdate("UPDATE ENROLLMENT SET obtainedMarks="+marks+" WHERE studentName='"+studentName+"';");
     }
+    
     public int getTeachersCount(){
         int teacherCount = 0;
         try{
             Statement st = connection.createStatement();
             ResultSet res = st.executeQuery("SELECT COUNT(*) FROM USERS_LOGIN_DATA WHERE role='Teacher';");
+            if (res.next()) {
+                teacherCount = res.getInt(1);
+            }
         }catch (SQLException e){
-            System.out.println("SQL Exception");
+            System.out.println("SQL Exception: " + e.getMessage());
         }
         return teacherCount;
+    }
+    
+    public ArrayList<String> viewTeacher() {
+    	ArrayList<String> t = new ArrayList();
+    	try{
+            Statement st = connection.createStatement();
+            ResultSet res = st.executeQuery("SELECT * FROM USERS_LOGIN_DATA WHERE role='Teacher';");
+            while(res.next()) {
+            	t.add(res.getString("username"));
+            }
+        }catch (SQLException e){
+            System.out.println("SQL Exception: " + e.getMessage());
+        }
+    	return t;
     }
 }

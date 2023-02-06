@@ -19,7 +19,7 @@ public class SendData {
         while (res.next()){
             String userStat = res.getString("username");
             if(userStat.equals(signupData.username)){
-                throw new UserExistsException();
+                throw new UserExistsException();      
             }
         }
         try{

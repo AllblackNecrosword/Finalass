@@ -19,7 +19,6 @@ import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.awt.event.ActionEvent;
 
 public class Login_form {
@@ -113,8 +112,14 @@ public class Login_form {
 		lblNewLabel_1.setBounds(67, 145, 86, 13);
 		panel_2.add(lblNewLabel_1);
 		
-		String roles[]= {"Admin","Teacher","Student"};
+		String roles[]= {"SELECT","Admin","Teacher","Student"};
+		@SuppressWarnings("unchecked")
 		JComboBox comboBox = new JComboBox(roles);
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 10));
 		comboBox.setBounds(67, 242, 173, 30);  
 		panel_2.add(comboBox);
@@ -138,19 +143,65 @@ public class Login_form {
 		JButton btnNewButton_1 = new JButton("Signin");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				String username = jTextField1.getText();
+//				char[] password = jPasswordField1.getPassword();
+//
+//				try {
+//				  String query = "SELECT password FROM login WHERE username = ?";
+//				  pst = con.prepareStatement(query);
+//				  pst.setString(1, username);
+//				  rs = pst.executeQuery();
+//				  if (rs.next()) {
+//				    if (Arrays.equals(password, rs.getString("password").toCharArray())) {
+//				      JOptionPane.showMessageDialog(null, "Login Successfully");
+//				    } else {
+//				      JOptionPane.showMessageDialog(null, "Login Failed");
+//				      dispose();
+//				    }
+//				  } else {
+//				    JOptionPane.showMessageDialog(null, "Login Failed");
+//				    dispose();
+//				  }
+//				} catch (SQLException ex) {
+//				  JOptionPane.showMessageDialog(null, "An error occurred while executing the query");
+//				  ex.printStackTrace();
+//				}
 				  String u = username.getText();
-				    char[] p = password.getPassword();
+				    String p = new String(password.getPassword());
 				    FetchData fd = new FetchData();
-				    String[] userData = fd.loginData(u, p.toString(), comboBox.getSelectedItem().toString());
-				    System.out.println("yehi ho"+userData.length);
-				    if (u.isEmpty() || p.length == 0) {
-				        JOptionPane.showMessageDialog(panel_1, "Please Fill the empty Boxes", "Warning", JOptionPane.WARNING_MESSAGE);     
-				    } else if (userData == null || userData.length != 2 || userData[0] == null || userData[1] == null) {
-				        JOptionPane.showMessageDialog(panel_1, "Invalid", "Warning", JOptionPane.WARNING_MESSAGE);     
-				    } else {
-				        new Dashboard();
+//				    String r=new String(comboBox.getActionCommand());
+//				    String option = comboBox.getSelectedItem().toString();
+				    String[] profile = new String[3];
+				    profile = fd.loginData(u);
+				    try {
+				    	if(profile[0].equals(p)) {
+				    		new Dashboard();
 				        frame.setVisible(false);
+				  
 				    }
+				    	else if  (u.isEmpty() || p.isEmpty()) {
+				        JOptionPane.showMessageDialog(panel_1, "Invalid", "Warning", JOptionPane.WARNING_MESSAGE);     
+				    }
+				    	else {
+				        JOptionPane.showMessageDialog(panel_1, "Invalid", "Warning", JOptionPane.WARNING_MESSAGE);     
+
+				    }
+				    }catch(Exception e1) {
+				    	 JOptionPane.showMessageDialog(panel_1, "Please Fill the empty Boxes", "Warning", JOptionPane.WARNING_MESSAGE);   
+				    }
+				    
+				    
+				 
+//				String u = username.getText();
+//			    char[] p = password.getPassword();
+//			    FetchData fd = new FetchData();
+//			    if(u.isEmpty()) {
+//			    	JOptionPane.showMessageDialog(panel_1, "Please Fill the empty Boxes", "Warning", JOptionPane.WARNING_MESSAGE); 
+//			    }else {
+//			    	new Dashboard();
+//			    	frame.setVisible(false);
+//			    }
+				 
 				
 			}
 		});

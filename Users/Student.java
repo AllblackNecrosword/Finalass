@@ -49,9 +49,6 @@ public class Student extends Users {
         return instructors;
     }
 
-    private void chooseOptionalModules() {
-    }
-
     public int getStudentsCount() {
         int studentCount = 0;
         try {

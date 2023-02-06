@@ -11,10 +11,10 @@ import java.sql.Statement;
 
 public class Admin implements UserInterface {
 
-    private String username;
+  
     //constructor
-    public Admin(String username){
-        this.username = username;
+    public Admin(){
+  
     }
     private Database database = new Database();
     private Connection connection =database.connectToDatabase();
@@ -27,7 +27,7 @@ public class Admin implements UserInterface {
             moduleListString+= " ";
         }
         Statement addCourseSt = connection.createStatement();
-        addCourseSt.executeUpdate("INSERT INTO COURSES_INFO(courseName,courseDescription,courseCost,moduleList,addedBy) VALUES ('"+courseName+"', '"+courseDescription+"', "+courseCost+",'"+moduleListString+"','"+username+"');");
+        addCourseSt.executeUpdate("INSERT INTO COURSES_INFO(courseName,courseDescription,courseCost,moduleList) VALUES ('"+courseName+"', '"+courseDescription+"', "+courseCost+",'"+moduleListString+"');");
     }
     public void addModule(String courseName,String newModuleName)throws  SQLException{
         String oldModuleList = "";

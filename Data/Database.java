@@ -20,7 +20,7 @@ public class Database {
                 Statement createTableEnrollment = connection.createStatement();
                 Statement createTableOptionalEnrollment = connection.createStatement();
                 createTableUsersLogin.executeUpdate("CREATE TABLE IF NOT EXISTS USERS_LOGIN_DATA(id int AUTO_INCREMENT PRIMARY KEY,role VARCHAR(10),username VARCHAR(20),email VARCHAR(30),password VARCHAR(15));");
-                createTableCoursesInfo.executeUpdate("CREATE TABLE IF NOT EXISTS COURSES_INFO(id INT AUTO_INCREMENT PRIMARY KEY,courseName VARCHAR(20),courseDescription VARCHAR(100),courseCost INT, moduleList VARCHAR(100), addedBy VARCHAR(20));");
+                createTableCoursesInfo.executeUpdate("CREATE TABLE IF NOT EXISTS COURSES_INFO(id INT AUTO_INCREMENT PRIMARY KEY,courseName VARCHAR(20),courseDescription VARCHAR(100),courseCost INT, moduleList VARCHAR(100));");
                 createTableModuleInfo.executeUpdate("CREATE TABLE IF NOT EXISTS MODULES_INFO(ID INT AUTO_INCREMENT PRIMARY KEY,moduleName VARCHAR(50),courseName VARCHAR(30),teacherName VARCHAR(30));");
                 createTableStudentInfo.executeUpdate("CREATE TABLE IF NOT EXISTS STUDENT_INFO(ID INT AUTO_INCREMENT PRIMARY KEY,studentName VARCHAR(30),courseName VARCHAR(30));");
                 createTableEnrollment.executeUpdate("CREATE TABLE IF NOT EXISTS ENROLLMENT(ID INT AUTO_INCREMENT PRIMARY KEY,studentName VARCHAR(30),moduleName VARCHAR(30),marksObtained INT);");
